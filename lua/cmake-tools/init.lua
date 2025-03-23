@@ -171,6 +171,7 @@ function cmake.generate(opt, callback)
 
       local env = environment.get_build_environment(config)
       local cmd = const.cmake_command
+      config.executor.opts = vim.tbl_deep_extend('force', {new_task_opts = { name = "CMakeTools generate" }}, config.executor.opts)
       return utils.execute(
         cmd,
         config.env_script,
@@ -247,6 +248,7 @@ function cmake.generate(opt, callback)
   local env = environment.get_build_environment(config)
   local cmd = const.cmake_command
   env = vim.tbl_extend("keep", env, kit_option.env)
+  config.executor.opts = vim.tbl_deep_extend('force', {new_task_opts = { name = "CMakeTools generate" }}, config.executor.opts)
   return utils.execute(
     cmd,
     config.env_script,
@@ -292,6 +294,7 @@ function cmake.clean(callback)
 
   local env = environment.get_build_environment(config)
   local cmd = const.cmake_command
+  config.executor.opts = vim.tbl_deep_extend('force', {new_task_opts = { name = "CMakeTools clean" }}, config.executor.opts)
   return utils.execute(cmd, config.env_script, env, args, config.cwd, config.executor, callback)
 end
 
@@ -372,6 +375,7 @@ function cmake.build(opt, callback)
 
   local env = environment.get_build_environment(config)
   local cmd = const.cmake_command
+  config.executor.opts = vim.tbl_deep_extend('force', {new_task_opts = { name = "CMakeTools build" }}, config.executor.opts)
   return utils.execute(cmd, config.env_script, env, args, config.cwd, config.executor, callback)
 end
 
@@ -436,6 +440,7 @@ function cmake.install(opt, callback)
 
   local args = { "--install", config:build_directory_path() }
   vim.list_extend(args, fargs)
+  config.executor.opts = vim.tbl_deep_extend('force', {new_task_opts = { name = "CMakeTools install" }}, config.executor.opts)
   return utils.execute(
     const.cmake_command,
     config.env_script,
@@ -1082,6 +1087,7 @@ function cmake.run_test(opt)
     return
   end
   local env = environment.get_build_environment(config)
+  env = vim.tbl_deep_extend('force', config.ctest_env, env)
   local all_tests = ctest.list_all_tests(config:build_directory_path())
   if #all_tests == 0 then
     return
@@ -1094,6 +1100,7 @@ function cmake.run_test(opt)
       if not idx then
         return
       end
+      opt.args = table.concat({ unpack(config.ctest_args or {}), opt.args })
       if idx == 1 then
         ctest.run(const.ctest_command, "'.*'", config:build_directory_path(), env, config, opt)
       else

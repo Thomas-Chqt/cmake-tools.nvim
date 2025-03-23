@@ -134,6 +134,8 @@ local const = {
     refresh_rate_ms = 100, -- how often to iterate icons
   },
   cmake_virtual_text_support = true, -- Show the target related to current file using virtual text (at right corner)
+  ctest_args = { "--output-on-failure" }, -- aditional argument to pass to ctest
+  ctest_env = {} -- environement variable for ctest
 }
 
 return const

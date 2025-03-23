@@ -30,6 +30,8 @@ local Config = {
   runner = nil,
   env_script = " ",
   cwd = vim.loop.cwd(),
+  ctest_args = {},
+  ctest_env = {}
 }
 
 function Config:new(const)
@@ -46,6 +48,9 @@ function Config:new(const)
 
   obj.executor = const.cmake_executor
   obj.runner = const.cmake_runner
+
+  obj.ctest_args = const.ctest_args
+  obj.ctest_env = const.ctest_env
 
   return obj
 end
