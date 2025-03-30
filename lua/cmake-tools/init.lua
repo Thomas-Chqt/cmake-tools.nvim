@@ -1105,7 +1105,7 @@ function cmake.run_test(opt)
         ctest.run(const.ctest_command, "'.*'", config:build_directory_path(), env, config, opt)
       else
         ctest.run(
-          const.ctest_command,
+          "'"..const.ctest_command.."'",
           all_tests[idx],
           config:build_directory_path(),
           env,
