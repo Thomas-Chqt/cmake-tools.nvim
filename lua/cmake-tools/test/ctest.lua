@@ -38,7 +38,7 @@ function ctest.run(ctest_command, test_name, build_dir, env, config, opt)
   local runner = config.runner
   runner.opts = vim.tbl_deep_extend('force', { new_task_opts = { name = "CTest "..test_name }}, runner.opts)
 
-  local args = { "--test-dir", utils.transform_path(build_dir), "-R", test_name, opt.args }
+  local args = { "--test-dir", utils.transform_path(build_dir), "-R", "'"..test_name.."'", opt.args }
   utils.run(
     cmd,
     config.env_script,
